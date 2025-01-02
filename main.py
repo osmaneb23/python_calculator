@@ -66,6 +66,10 @@ for button in buttons:
         # Bouton virgule
         btn = Button(main_frame, text=button, width=8, height=2, bg="black", fg="white",
                     command=ajouter_virgule)
+    elif button == '=':
+        # Bouton égale
+        btn = Button(main_frame, text=button, width=8, height=2, bg="red", fg="white",
+                    command=ajouter_virgule)
     else:
         # Boutons d'opération en noir
         btn = Button(main_frame, text=button, width=8, height=2, bg="black", fg="white")
