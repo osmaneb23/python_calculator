@@ -2,27 +2,48 @@ from tkinter import *
 from PIL import Image, ImageTk
 import os
 
+def apply_entry_style():
+    # Fonction utilitaire pour maintenir le style cohérent
+    entry.config(
+        bg="#f0f0f0",
+        fg="black",
+        relief='solid',
+        borderwidth=1
+    )
+
 # Fonctions pour gérer les entrées de la calculatrice
 def clear_entry():
-    # Efface tout le contenu du champ de saisie
+    entry.config(state='normal')
     entry.delete(0, END)
+    entry.config(state='readonly')
+    apply_entry_style()
 
 def ajouter_nombre(num):
-    # Ajoute un nombre au champ de saisie
+    entry.config(state='normal')
     entry.insert(END, str(num))
+    entry.config(state='readonly')
+    apply_entry_style()
 
 def ajouter_virgule():
-    # Ajoute une virgule si elle n'existe pas déjà dans le nombre
+    entry.config(state='normal')
     if (entry.get().find(",") == -1):
         entry.insert(END, ",")
+    entry.config(state='readonly')
+    apply_entry_style()
 
 def delete():
-    # Supprime le dernier caractère du champ de saisie
+    entry.config(state='normal')
     entry.delete(len(entry.get()) - 1, END)
+    entry.config(state='readonly')
+    apply_entry_style()
 
 def clear():
     # Alias pour clear_entry()
     clear_entry()
+
+def handle_keypress(event):
+    # Empêcher la saisie directe dans l'Entry
+    return "break"
 
 # Configuration de la fenêtre principale
 window = Tk()
@@ -44,8 +65,17 @@ main_frame = Frame(window, bg="white")
 main_frame.pack(expand=True, fill='both', padx=20, pady=20)
 
 # Création du champ de saisie
-entry = Entry(main_frame, bg="white", fg="black", font=('Aileron', 20), justify='right')
+entry = Entry(main_frame, 
+             bg="#f0f0f0",  # Fond gris clair
+             fg="black", 
+             font=('Aileron', 20), 
+             justify='right',
+             relief='solid',  # Bordure solide
+             borderwidth=1)   # Épaisseur de la bordure
 entry.grid(row=0, column=0, columnspan=4, sticky='nsew', padx=5, pady=5)
+
+# Liaison pour empêcher la saisie directe
+entry.bind('<Key>', handle_keypress)
 
 # Boutons de la première rangée (fonctions spéciales) avec police cohérente
 Button(main_frame, text="%", width=8, height=2, bg="black", fg="white").grid(row=1, column=0, padx=2, pady=2)
@@ -92,6 +122,9 @@ for i in range(6):
     main_frame.grid_rowconfigure(i, weight=1)
 for i in range(4):
     main_frame.grid_columnconfigure(i, weight=1)
+
+# Ajout de la liaison des touches
+window.bind('<Key>', handle_keypress)
 
 # Lancement de la boucle principale
 window.mainloop()
