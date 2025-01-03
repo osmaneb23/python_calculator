@@ -1,4 +1,6 @@
 from tkinter import *
+from PIL import Image, ImageTk
+import os
 
 # Fonctions pour gérer les entrées de la calculatrice
 def clear_entry():
@@ -26,6 +28,11 @@ def clear():
 window = Tk()
 window.title("Calculatrice") 
 window.configure(bg="white")
+image = Image.open('ico/calculator.png')
+photo = ImageTk.PhotoImage(image)
+window.wm_iconphoto(True, photo)
+# window.wm_iconbitmap('ico/calculator.png')
+
 # Définition des tailles minimale et maximale de la fenêtre
 window.minsize(400,620)
 window.maxsize(600, 820)
@@ -37,7 +44,7 @@ main_frame = Frame(window, bg="white")
 main_frame.pack(expand=True, fill='both', padx=20, pady=20)
 
 # Création du champ de saisie
-entry = Entry(main_frame, bg="white", fg="black", font=('Aileron', 20))
+entry = Entry(main_frame, bg="white", fg="black", font=('Aileron', 20), justify='right')
 entry.grid(row=0, column=0, columnspan=4, sticky='nsew', padx=5, pady=5)
 
 # Boutons de la première rangée (fonctions spéciales) avec police cohérente
